@@ -1,129 +1,76 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+import threading
+import win32api
+import win32con
+import time
+import keyboard
 
-# C extensions
-*.so
+# Read mouse coordinates from file.
+with open('mouse_coordinates.txt', 'r') as file:
+    line = file.readline()
+    x, y = line.split(',')
 
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
+# Convert coordinates to integers.
+x, y = int(x), int(y)
 
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
+# define f5_thread.
+def f5_thread():
+    while not stop_event.is_set():
 
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
+        # Save current mouse position.
+        orig_x, orig_y = win32api.GetCursorPos()
 
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
+        # Simulate left-click at (x,y) coordinates.
+        win32api.SetCursorPos((x, y))
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, x, y, 0, 0)
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, x, y, 0, 0)
+        print('Left-clicked at coordinates:', x, y)
 
-# Translations
-*.mo
-*.pot
+        # Simulate F5 key press.
+        print('Incoming refresh...')
+        win32api.keybd_event(win32con.VK_F5, 0, 0, 0)
+        win32api.keybd_event(win32con.VK_F5, 0, win32con.KEYEVENTF_KEYUP, 0)
+        print('Page has been Refreshed.')
 
-# Django stuff:
-*.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+        time.sleep(0.1)
 
-# Flask stuff:
-instance/
-.webassets-cache
+        # Move mouse back to original position.
+        win32api.SetCursorPos((orig_x, orig_y))
+        # Simulate left-click at orginal position.
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, orig_x, orig_y, 0, 0)
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, orig_x, orig_y, 0, 0)
+        print('Set mouse to oringinal position:', orig_x, orig_y)
 
-# Scrapy stuff:
-.scrapy
 
-# Sphinx documentation
-docs/_build/
+        # Wait for 2 minutes.
+        countdown = 1200
+        while countdown > 0:
+            if stop_event.wait(0.1):
+                return
+            if keyboard.is_pressed('space'):  # check if space key is pressed.
+                print("User is typing. Soft resetting refresh...")
+                countdown = 600
+            else:
+                if countdown % 10 == 0:  # Update countdown every 10 iterations (i.e. every 1 second).
+                    print(f'Cooldown: {int(countdown / 10)} seconds')
+                countdown -= 1
 
-# PyBuilder
-target/
+stop_event = threading.Event()
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# Script start delayed slightly.
+print('Page will begin refreshing in: ')
+for i in range(3, 0, -1):
+    print(f"{i}")
+    time.sleep(1)
 
-# IPython
-profile_default/
-ipython_config.py
+# Start the F5 thread.
+f5_thread = threading.Thread(target=f5_thread)
+f5_thread.start()
 
-# pyenv
-.python-version
+# Listen for the alt key to stop the script.
+print("Press alt to stop the script.")
+keyboard.wait('alt')
+stop_event.set()
+print('\n' + 'Script stopped.' + '\n' + 'Have a good one bro.' + '\n')
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
-
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
-
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
-
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
-
-# Pyre type checker
-.pyre/
+# Remove keyboard hook on exit.
+keyboard.unhook_all()
