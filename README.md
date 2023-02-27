@@ -1,2 +1,6 @@
 # Refresh-Inator
-Python script for automatically refreshing webpages.
+These scripts serve to automate the process of refreshing a web page by simulating a left-click and F5 key press.
+
+The first script called Get_Mouse_Coordinates.py saves the current position of the mouse cursor in a file named mouse_coordinates.txt, which will be used by the second script called F5_Press.py to simulate a left-click at those coordinates. This script waits for the user to position their mouse cursor on the page they want to monitor, counts down from 5, gets the current mouse coordinates using the win32api.GetCursorPos() function, and then saves the coordinates to the file.
+
+The second script reads the saved coordinates from the mouse_coordinates.txt file, and then creates a new thread to run the f5_thread() function. This function simulates a left-click at the saved coordinates, then simulates an F5 key press to refresh the page. After simulating an F5 key press it sets the mouse cursor back to its original position and simulates a left-click at that position so that the window the user is using remains active. It then waits for 2 minutes, while checking for any spacebar presses from the user to reset the cooldown period. This is to remove the possibility of the script inturpting the user while they are typing. This process repeats until the stop_event is set. The stop_event is triggered by an 'alt' key press which can be done at any time by the user. The keyboard.unhook_all() function is called to remove the keyboard hook on exit.
