@@ -18,4 +18,5 @@ The script includes a simple Graphical User Interface (GUI) that allows the user
 **Notes:**
 
 • By default, the script is set to refresh the page every two minutes.
+
 • Script will not refresh while User is typing or holding down left click.
