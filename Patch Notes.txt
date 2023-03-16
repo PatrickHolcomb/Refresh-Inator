@@ -1,0 +1,8 @@
+
+Refresh-Inator
+Version 1.0
+
+• First release of script
+• Script combines F5_Press.py and Get_Mouse_Coordinates.py
+• Script is accessible using a GUI via PySimpleGUI
+• Script is available as an executable through Refresh-Inator.exe
