@@ -90,7 +90,7 @@ def f5_thread():
             print('Set mouse to original position:', orig_x, orig_y)
 
             # Wait for 2 minutes.
-            countdown = 120
+            countdown = 1200
             while countdown > 0:
                 if stop_event.wait(0.1):
                     return
