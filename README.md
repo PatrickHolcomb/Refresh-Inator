@@ -2,15 +2,17 @@
 
 **Description:**
 
-This is a Python script that automates the refreshing of a web page at a specified interval using the win32api library. The script allows the user to select a position on their screen by hovering their mouse over the page they wish to automatically refresh. The position is saved to a file, and the script then uses the saved coordinates to simulate a left-click and F5 key press at that position.
+This script allows you to automatically refresh a web page by simulating a left-click and F5 keypress every two minutes. You can select which page to monitor by clicking on it with the left mouse button. The script also allows you to stop the automatic refreshing.
 
-The script also includes a feature to detect if the left mouse button is being held down, and if it is, it delays the refreshing until the button is released. Additionally, if the user types while the countdown is running, the script will add one second to the refresh time, up to a maximum of 10 seconds.
+The script uses the pynput library to listen for left mouse clicks and keyboard events. When the left mouse button is clicked, the script saves the coordinates to a file. When the script is running, it reads the coordinates from the file and simulates a left-click and F5 keypress at those coordinates every two minutes.
 
-The script includes a simple Graphical User Interface (GUI) that allows the user to easily start and stop the refreshing process. The GUI was created using the PySimpleGUI library.
+The GUI is created using the PySimpleGUI library. The GUI has two buttons: "Get Coordinates" and "Start Refreshing". The "Get Coordinates" button opens a new window with instructions to position the mouse on the page to be monitored and click. The "Start Refreshing" button starts the automatic refreshing.
+
+The script also allows the user to stop the automatic refreshing by clicking a "Stop" button. When the "Stop" button is clicked, the script sets a stop_event, which stops the while loop in the f5_thread function. The script also unregisters the keyboard hook.
 
 **Intructions:**
 1. Run Refresh-Inator.exe
-2. Click 'Get Coordinates' and hover your mouse over the page you wish to auto refresh. (Only needed once unless you would like to change positions.)
+2. Click 'Get Coordinates' and click the page you wish to auto refresh. (Only needed once unless you would like to change positions.)
 3. Click 'Start Refreshing'to begin automatically refreshing the page.
 4. Click 'Stop Refreshing' at anytime to cancel auto refresh.
 5. Click 'Start Refreshing' if you would like to begin refreshing again.
