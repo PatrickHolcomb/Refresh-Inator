@@ -1,3 +1,13 @@
+Refresh-Inator
+Version 2.0
+
+• Rewrote code to use the pynput module instead of the win32api module.
+• Adjusted output window to only show 3 lines at a time.
+• Adjusted GUI size so that there is less empty space.
+• Only one line is shown on the cooldown timer so that it is more intuitive to the user.
+• Now when clicking 'Get Coordinates' the script waits for you to click before saving mouse position.
+
+============================================================================================================================
 
 Refresh-Inator
 Version 1.0
