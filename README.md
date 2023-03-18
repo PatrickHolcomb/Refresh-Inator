@@ -10,11 +10,11 @@ The GUI is created using the PySimpleGUI library. The GUI has two buttons: "Get 
 
 The script also allows the user to stop the automatic refreshing by clicking a "Stop" button. When the "Stop" button is clicked, the script sets a stop_event, which stops the while loop in the f5_thread function. The script also unregisters the keyboard hook.
 
-**Intructions:**
+**Instructions:**
 1. Run Refresh-Inator.exe
 2. Click 'Get Coordinates' and click the page you wish to auto refresh. (Only needed once unless you would like to change positions.)
-3. Click 'Start Refreshing'to begin automatically refreshing the page.
-4. Click 'Stop Refreshing' at anytime to cancel auto refresh.
+3. Click 'Start Refreshing' to begin automatically refreshing the page.
+4. Click 'Stop Refreshing' at any time to cancel auto refresh.
 5. Click 'Start Refreshing' if you would like to begin refreshing again.
 
 **Notes:**
