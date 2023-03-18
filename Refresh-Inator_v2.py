@@ -108,9 +108,6 @@ def f5_thread():
                             time.sleep(0.1)
         
 
-        # Reset mouse_pressed_left to False when the thread exits.
-        #mouse_pressed_left = False
-
 stop_event = threading.Event()
 
 def on_click(x, y, button, pressed):
